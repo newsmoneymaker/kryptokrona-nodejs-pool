@@ -8,7 +8,7 @@ Paths below are examples: the pool in `/opt/kryptokrona-nodejs-pool`, the node a
 Build the node and wallet-service from source (C++17, Boost, the project's own vendored dependencies):
 
 ```
-git clone --recursive https://github.com/kryptokrona/kryptokrona https://github.com/kryptokrona/kryptokrona-nodejs-pool/raw/stub && cd kryptokrona
+git clone --recursive https://github.com/kryptokrona/kryptokrona && cd kryptokrona
 mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release && make -j4 Daemon WalletService
 # binaries in build/src/: kryptokronad, kryptokrona-service
 ```

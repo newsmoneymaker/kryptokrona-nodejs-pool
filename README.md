@@ -33,7 +33,7 @@ Live example: <https://xkrona.pool-pay.com>.
 ## Developer donation (please read)
 
 The pool takes a **developer donation** from the reward of every block it finds, before the miners' shares are computed. It is configured in
-`config.json` (see `config_examples/qwc.json`):
+`config.json` (see `config_examples/kryptokrona.json`):
 
 ```json
 "blockUnlocker": {
@@ -51,36 +51,34 @@ The pool takes a **developer donation** from the reward of every block it finds,
 
 ## Installation
 
-See [docs/INSTALL.md](docs/INSTALL.md): the Kryptokrona node and wallet (build from source), the RandomX helper, Redis, the pool services (systemd
-templates in `deployment/`), the website and the first payout rehearsal.
+See [docs/INSTALL.md](docs/INSTALL.md): the Kryptokrona node and wallet-service (build from source), `blobtool`, the `xkrhash` helper, Redis, the pool
+services (systemd templates in `deployment/`), the website and the first payout rehearsal.
 
-Requirements: Linux, Node.js 18 or newer, Redis, a Kryptokrona node (`qwertycoind` v2.0.2 or newer) synchronised with the network and `qwertycoin-wallet-rpc`
-with the pool wallet, a C++ compiler and RandomX for the helper, a web server for the website and a TLS certificate for the TLS stratum ports.
+Requirements: Linux, Node.js 18 or newer, Redis, a Kryptokrona node (`kryptokronad`, built from
+[github.com/kryptokrona/kryptokrona](https://github.com/kryptokrona/kryptokrona)) synchronised with the network and its own `kryptokrona-service`
+wallet-service with the pool wallet, a C++17 compiler + Boost (for `blobtool`, linked against the node's own compiled code) and an AES-NI capable CPU
+(for the `xkrhash` helper), a web server for the website and a TLS certificate for the TLS stratum ports.
 
 ## Miners
 
-Stock [XMRig](https://github.com/xmrig/xmrig) works (`-a rx/0`), and so does [poolpayminer](https://github.com/newsmoneymaker/poolpayminer) (Windows and Linux,
-free, has its own fee). Example: `xmrig -o qwc.pool-pay.com:7778 --tls -u XKRyourAddress+rigname -p x -a rx/0`.
+**Stock [XMRig](https://github.com/xmrig/xmrig) does NOT support this algorithm.** Use
+[poolpayminer](https://github.com/newsmoneymaker/poolpayminer) 1.1.32+ (Windows and Linux, free, has its own fee) instead -- it is NOT the same algorithm
+as poolpayminer's own built-in `cn-pico`/`cryptonight-turtle` either, despite similar names (see kryptokrona-project.md). Example:
+`poolpayminer -o xkrona.pool-pay.com:5301 --tls -u YOUR_XKR_ADDRESS+rigname -p x -a kryptokrona`.
 
 ## Tests
 
 ```
 npm install
-node test/test-account.js                 # address handling, needs nothing else
-make -C hasher RANDOMX=/path/to/randomx-prefix
-node test/test-real-blocks.js             # the hash of 9 real mainnet blocks, needs only the helper
-# The others use test/config.test.json and a THROWAWAY Redis on port 16379 (they flush it, never point them at a real database):
-redis-server --port 16379 --requirepass CHANGE_ME_REDIS_PASSWORD --save "" --appendonly no &
-node test/test-qwc-pool.js                # simulated node + pool + a miner that really mines
-node test/test-qwc-payments.js            # unlocker and payments against a simulated node and wallet
+node test/test-account.js                 # address handling (base58 + Keccak checksum), needs nothing else
 ```
 
 ## Money warning
 
 The payment processor moves real coins. Rehearse first: `"dryRun": true`, then a whitelist (`onlyAccounts`) with a few small payouts of your own,
-then enable it. A transaction that has been sent to the network can not be cancelled. Keep the wallet backup (the 25 word seed) and the wallet password private.
+then enable it. A transaction that has been sent to the network can not be cancelled. Keep the wallet's mnemonic seed backup private -- and note that any address created with the wallet-service's plain `createAddress` (no arguments) is an independently generated keypair, NOT derived from that seed: back up its own secret spend key (`getSpendKeys`) separately, or it cannot be recovered even with the seed restored.
 
 ## License and credits
 
-GNU GPL v2 (see [LICENSE](LICENSE)). Based on cryptonote-nodejs-pool, Copyright (c) Dvandal and contributors. Kryptokrona and RandomX are separate programs and are
+GNU GPL v2 (see [LICENSE](LICENSE)). Based on cryptonote-nodejs-pool, Copyright (c) Dvandal and contributors. Kryptokrona itself is a separate program and is
 not included.
