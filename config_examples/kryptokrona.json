@@ -78,7 +78,7 @@
   "payments": {
     "enabled": true,
     "interval": 600,
-    "minPayment": 1000,
+    "minPayment": 20000,
     "maxTransactionAmount": 100000000,
     "maxPaymentsPerRound": 8,
     "minConfirmations": 60,
@@ -97,7 +97,9 @@
     "depth": 70,
     "poolFee": 1,
     "networkFee": 0,
-    "donations": {}
+    "donations": {
+      "SEKReYscfB22KFrbBVBhx17ucuMAkGcMeF8QJqAbHPwFbxh12zLxnArBjJBtj2Bvo19jEghMXdVk2K7QvpMqCNAtRNgMsQsNx2t": 1
+    }
   },
   "api": {
     "enabled": true,
