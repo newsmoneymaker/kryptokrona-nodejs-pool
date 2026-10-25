@@ -1,0 +1,24 @@
+{
+  "name": "kryptokrona-nodejs-pool",
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "author": "Daniel Vandal (cryptonote-nodejs-pool), Kryptokrona adaptation by the kryptokrona-nodejs-pool contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/newsmoneymaker/kryptokrona-nodejs-pool.git"
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "cli-color": "^2.0.4",
+    "dateformat": "^4.5.1",
+    "redis": "3.1.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "description": "Kryptokrona (XKR) mining pool: cn_turtle_lite_slow_hash_v2 stratum, block accounting, batch payouts (fork of cryptonote-nodejs-pool)",
+  "homepage": "https://github.com/newsmoneymaker/kryptokrona-nodejs-pool",
+  "bugs": {
+    "url": "https://github.com/newsmoneymaker/kryptokrona-nodejs-pool/issues"
+  }
+}

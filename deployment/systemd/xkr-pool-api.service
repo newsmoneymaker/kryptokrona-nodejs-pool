@@ -1,0 +1,17 @@
+[Unit]
+Description=Kryptokrona pool: public API (127.0.0.1:8118)
+After=xkr-pool-redis.service xkr-node.service xkr-wallet-rpc.service
+Requires=xkr-pool-redis.service
+[Service]
+Type=simple
+User=xkrpool
+WorkingDirectory=/opt/xkr-nodejs-pool
+ExecStart=/usr/bin/node /opt/xkr-nodejs-pool/init.js -module=api
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

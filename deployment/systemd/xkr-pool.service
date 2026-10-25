@@ -1,0 +1,19 @@
+[Unit]
+Description=Kryptokrona pool: stratum server (miners, share checking with the xkrhash helper, block submission)
+After=xkr-pool-redis.service xkr-node.service xkr-wallet-rpc.service
+Requires=xkr-pool-redis.service
+[Service]
+Type=simple
+User=xkrpool
+WorkingDirectory=/opt/xkr-nodejs-pool
+ExecStart=/usr/bin/node /opt/xkr-nodejs-pool/init.js -module=pool
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+# ports below 1024 need this:
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

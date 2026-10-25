@@ -1,0 +1,17 @@
+[Unit]
+Description=Kryptokrona pool: charts data collector (hash rate, difficulty, miners, workers on the home page)
+After=xkr-pool-redis.service xkr-pool-api.service
+Requires=xkr-pool-redis.service
+[Service]
+Type=simple
+User=xkrpool
+WorkingDirectory=/opt/xkr-nodejs-pool
+ExecStart=/usr/bin/node /opt/xkr-nodejs-pool/init.js -module=chartsDataCollector
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
